@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+<style>
+    .box{
+        width: 300px;
+        height: 200px;
+        background-color: #CCCCCC;
+        padding-top: 20px;
+        margin-top: 20px;
+    }
+    .box p{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .box button{
+        display: flex;
+        justify-content: center;
+    }
+</style>
+<body>
+    <div class="app">
+        <header>
+            <button @click="tablist.forEach(item=>item.checked=true)">全选</button>
+            <button @click="tablist.forEach(item=>{item.checked === true ? item.checked = false : item.checked = true})">反选</button>
+            <button @click="tablist.forEach(item=>item.checked=false)">全不选</button>
+            <button @click="del">批量删除</button>
+            <button @click="tablist.splice(0)">清空购物车</button>
+            <button @click="oll===false ? oll=true : oll=false ">添加</button>
+            <button @click="tablist.reverse()">倒序</button>
+            <input type="text" placeholder="请输入名称" v-model.lazy.trim="str">
+        </header>
+
+        <table border="2px">
+            <tbody>
+                <tr>
+                    <th>选项</th>
+                    <th>名称</th>
+                    <th>产地</th>
+                    <th>数量</th>
+                    <th>生产时间</th>
+                    <th>单价</th>
+                    <th>小计</th>
+                    <th>操作</th>
+                </tr>
+                <tr v-for="(item,index) in str==='' ? tablist : newArr">
+                    <td><input type="checkbox" v-model="item.checked" /></td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.city}}</td>
+                    <td><button @click="item.totle < 2 ? tablist.splice(index,1) : item.totle--">-</button>{{item.totle}} <button @click="item.totle++">+</button></td>
+                    <td>{{item.time}}</td>
+                    <td>{{item.unit}}</td>
+                    <td>${{item.totle * item.unit}}</td>
+                    <td><button @click="tablist.splice(index,1)">删除</button><button @click="edit(item)">修改</button></td>
+                </tr>
+            </tbody>
+            
+        </table>
+        <table border="2px" style="width: 587px;">
+            <tbody>
+                <tr>
+                    <td>总价 ￥ {{tablist.reduce((prev,cur)=>prev+cur.totle*cur.unit,0)}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div v-show="flag" class="box">
+            <p>名称 : <input type="text" v-model.trim="Arr.name"></p>
+            <p> 产地 : <input type="text" v-model.trim="Arr.city"></p>
+            <p> 价格 : <input type="number" v-model.trim="Arr.unit"></p>
+            <p><button @click="confirm">确定修改</button></p>
+        </div>
+        
+        <div v-show="oll" class="box">
+            <p>名称 : <input type="text" v-model.trim="Arr.name"></p>
+            <p> 产地 : <input type="text" v-model.trim="Arr.city"></p>
+            <p> 价格 : <input type="number" v-model.trim="Arr.unit"></p>
+            <p><button @click="confirm">确定添加</button></p>
+        </div>
+    </div>
+
+    <script>
+        
+        const vm = new Vue({
+            // 在此元素内可以使用 vue 语法
+            el: ".app",
+            
+            // 定义响应式数据,data中的数据会存到实例对象中
+            data: {
+                str:"",
+                oll:false,
+                flag:false,
+                newArr: this.tablist,
+                Arr:{name:"",city:"",unit:""},
+                tablist:[
+                    {id:1,name:"云南白药",city:"云南",totle:3,time:"2013-06-13 06:41:33",unit:"36.00",checked:false},
+                    {id:2,name:"999感冒灵",city:"北京",totle:2,time:"2013-06-17 12:25:48",unit:"36.00",checked:false},    
+                    {id:3,name:"感康",city:"河北",totle:5,time:"2013-06-16 : 11:00:46",unit:"18.00",checked:false},
+                    {id:4,name:"板蓝根",city:"河南", totle:30,time:"2013-06-13 : 11:00:46",unit:"19.00", checked:false},
+                    {id:5,name:"创可贴",city:"吉林",totle:80,time:"2013-06-16 : 11:00:46",unit:"7.00", checked:false}
+                ]
+
+            },
+            // 计算属性
+            computed:{
+
+            },
+            // 侦听器
+            watch:{
+                str:{
+                    handler(){
+                        this.str === "" ? this.tablist : this.newArr = this.tablist.filter(item=>{return item.name.includes(this.str)})
+                    },
+                    deep:true
+                },
+            },
+            // 定义函数
+            methods:{
+                del(){
+                    this.tablist = this.tablist.filter(item=>{
+                        return item.checked===false
+                    })
+                },
+                confirm(){
+                    if(this.Arr.id){
+                        const index = this.tablist.findIndex(v => v.id === this.Arr.id)
+                        this.tablist.splice(index,1,{...this.Arr})
+                    }else{
+                        this.tablist.push({
+                            id:Date.now(),
+                            time:new Date().toLocaleDateString(),
+                            totle:1,
+                            ...this.Arr
+                        })
+                    }
+                    this.oll = false 
+                    this.flag =  this.flag===false ? true : false 
+
+                },
+                edit(row){
+                    console.log({...row})
+                    this.Arr = {...row}
+                    this.flag =  this.flag===false ? true : false 
+                }
+            }
+        })
+        // let newArr = vm.tablist
+                       
+
+    </script>
+</body>
+</html>
