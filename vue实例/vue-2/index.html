@@ -31,7 +31,7 @@
            <footer>
                 <div class="state">
                     <p>待完成 {{list.length}}</p>
-                    <button @click=""class="all" style='background-color: #EF7851;'>全部</button>
+                    <button @click="list "class="all" style='background-color: #EF7851;'>全部</button>
                     <button @click="State" class="noState">未完成</button>
                     <button @click="State"class="stated">已完成</button>
                     <button @click="deling" class="delState">清空已完成</button>
@@ -64,7 +64,11 @@
                 // 提交对象
                 submittn:"",
 
-                list:[{ }]
+                list:[
+                    {
+                        
+                    }
+                ]
 
             },
             selectedIndex: 0,

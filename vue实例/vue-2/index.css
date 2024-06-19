@@ -1,0 +1,100 @@
+*{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+html,body{
+    height: 100%;
+    width: 100%;
+}
+.app{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: -webkit-linear-gradient(0deg,#F4B3BB,#F6C1A8);
+}
+.infoBOX{
+    width: 500px;
+    height: 500px;
+    border-radius: 15px;
+    background-color: #fff;
+}
+header{
+    text-align: center;
+    margin: 30px auto;
+}
+main{
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+
+}
+input{
+    width: 315px;
+    height: 30px;
+    border: none;
+    outline: none;
+    border-bottom: 3px dashed #ED7B52;
+}
+.submit{
+    height: 30px;
+    border-radius: 5px;
+    background-color: darkgrey;
+}
+.info{
+    flex: 1;
+    margin-top: 20px;
+    width: 400px;
+    height: 200px;
+    overflow-y: auto;
+
+}
+.info li{
+    width: 100%;
+    height: 50px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    line-height: 30px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    
+}
+.info li:hover{
+    color: #fff;
+    background-color: #ED7B52;
+
+}
+.cke{
+    width: 30px;
+}
+footer{
+    position: sticky;
+    top: 73%;
+    display: flex;
+}
+.state{
+    padding: 0 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+button{
+    width: 80px;
+    background-color: #fff;
+    outline: none;
+    border: 0;
+}
+.state button:hover{
+    background-color: #ED7B52;
+}
+
+.active{
+    background-color: #ED7B52;
+    color: #fff;
+}
