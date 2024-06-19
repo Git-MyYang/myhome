@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div class="app">
+        <div class="infoBOX">
+            <header>
+                <p class="pImg"><img src="./img/To-Do.png" alt=""></p>
+                <h2>~Today I need to ~</h2>
+            </header>
+            
+           <main>
+                <div class="main">
+                    <input type="text" placeholder="todo..." v-model.trim="submittn" >
+                    <button class="submit" @click=" submitTow ">submit</button>
+                    
+                    <div class="info">
+                        <ul v-for="(item,index) in list" :key="index" >
+                            <li :class="{'active' : this.selectedIndex==index}" @click="selectedItem(index)"><input type="checkbox" class="cke" v-model="item.checked" >{{item.submittn}}<img src="./img/错号.png" alt="" @click="list.splice(index,1)"></li>
+                        </ul>
+                    </div>
+                </div>
+           </main>
+            
+           <footer>
+                <div class="state">
+                    <p>待完成 {{list.length}}</p>
+                    <button @click="list "class="all" style='background-color: #EF7851;'>全部</button>
+                    <button @click="State" class="noState">未完成</button>
+                    <button @click="State"class="stated">已完成</button>
+                    <button @click="deling" class="delState">清空已完成</button>
+                </div>
+           </footer>
+        </div>
+    </div>
+    
+
+    <script>
+
+        const vm = new Vue({
+            // 在此元素内可以使用 vue 语法
+            el: ".app",
+            
+
+            // 定义响应式数据,data中的数据会存到实例对象中
+            data: {
+
+                flag:false,
+
+                checked: false,
+
+                // 未完成对象
+                stateNo:this.list,
+
+                // 已完成对象
+                stateYes:"",
+
+                // 提交对象
+                submittn:"",
+
+                list:[
+                    {
+                        
+                    }
+                ]
+
+            },
+            selectedIndex: 0,
+
+            // 计算属性
+            Computed:{
+
+            },
+             // 侦听器
+             watch:{
+
+             },
+              // 定义函数
+            methods:{
+                submiting(){
+                    this.submittn === "" ? this.submittg : this.submitTow
+                },
+                submitTow(){
+                    this.list.push({submittn:this.submittn,id:Date.now(),checked:false})
+                    this.submittn = ""
+                    console.log(this.list)
+                },
+                checkFn(){
+                    
+                },
+                // 清空已完成
+                deling(){
+                    this.list = this.list.filter((item,index)=>{
+                        return item.checked === true ? this.list[index]= "" : this.list
+                    })
+                },
+                State(){
+                    // this.stateNo = this.list
+                    
+                    if(this.list.checked===false){
+                        this.stateNo = this.list.filter((item,index)=>{
+                            return item.checked === false
+                        })
+                    }else if( this.list.checked===true){
+                        this.stateNo = this.list.filter((item,index)=>{
+                            return item.checked === true
+                        })
+                    }
+                },
+                selectedItem(index){
+                    this.selectedIndex = index;
+                },
+            }
+        })
+    </script>
+</body>
+</html>
